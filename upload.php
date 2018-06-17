@@ -164,3 +164,7 @@ foreach ($files as &$value) {
 <h2>Files Successfully Zipped, Please Download</h2>
 <hr>
 <a href="download.php">Download Zipped Files</a>
+<?php
+
+
+?>
