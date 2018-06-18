@@ -1,170 +1,64 @@
-
 <?php
-// gonna get the files from temporary memory and upload them to the /uploadedFiles directory
-
-
-
-//$files = array_filter($_FILES['upload']['name']); //something like that to be used before processing files.
-
-// Count # of uploaded files in array
+// count the number of file uploaded
 $total = count($_FILES['upload']['name']);
-
 // Loop through each file
 for( $i=0 ; $i < $total ; $i++ ) {
-
-  //Get the temp file path
+  //Get the temp_name as well as the file path
   $tmpFilePath = $_FILES['upload']['tmp_name'][$i];
-
   //Make sure we have a file path
   if ($tmpFilePath != ""){
     //Setup our new file path
-    $newFilePath = "./uploadedFiles/" . $_FILES['upload']['name'][$i];
-
-    //Upload the file into the temp dir
+    $newFilePath = "Zipped-Files/" . $_FILES['upload']['name'][$i];
+    //Upload the file into the new path we created
     if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-
       //Handle other code here
-    //   echo  "test" . "<br />";
-
+       //echo  "<h2>Files were successfully uploaded</h2>" . "<br />";
   }
 }
 }
-
-$path = "uploadedFiles/";
-// $files = scandir($path);
-$files = array_diff( scandir($path), array(".", "..") );
-
-foreach ($files as &$value) {
-    echo $value . '<br/>';
+$path = "Zipped-Files/";
+// list all the files in the directory 
+$files = array_diff( scandir($path), array(".", "..") ); // exclude "." and ".." from the directory listing
+foreach ($files as &$value) { // for every file in the directory
+   // echo $value . '<br/>'; // lets echo the name of each of those files
     
-
-    $zip = new ZipArchive();
-    $zip->open('zip/zipfile.zip', ZipArchive::CREATE);
+    $zip = new ZipArchive(); // lets create a zip archive 
+    $zip->open('zipper/files.zip', ZipArchive::CREATE);
      
-    $zip->addFile($path.'/'.$value);
+    $zip->addFile($path.'/'.$value); // and add the files that we uploaded using the form button to it
     
      
-    $zip->close();
-
+    $zip->close(); // lets close the zip archive - php unlock the zipped archives
 }
 
+//// since we already moved the files to the zip archive we created, we do not want uncompress files
+//// any longer, so we'll delete them next
 
+$filesToDelete = 'Zipped-Files/'; // lets create a variable to hold the path that the files to be deleted lives in
+if (file_exists($filesToDelete)) { // now we are asking if the path do contain actual files
 
+ chmod($filesToDelete, 0777); // lets grant permission/ Access to the folder so that php can successfully remove the files from it
+ foreach(glob('Zipped-Files/*.*') as $file) // we now create a foreach loop to loop through each file in the directory
+ if(is_file($file)) // and if the file is really a file, then we will delete it
+     @unlink($file);
+     //echo 'Files Deleted'; // we'll echo "Files Deleted" when we successfully delete the files
+ } 
+ else {
+     echo 'Files does not exists'; // if the deletion was unsuccessful then we echo "Files does not exists"
+ }
 
-
-
-// We'll be outputting a PDF
-// header('Content-Type: application/zip');
-
-// It will be called downloaded.pdf
-// header('Content-Disposition: attachment; filename="zipfile.zip"');
-
-
-
-// The PDF source is in original.pdf
-// readfile('zip/zipfile.zip');
-
-//file size
-// header('Content-Length: '.filesize('zip/zipfile.zip'));
-
-// $zip = new ZipArchive();
-// $zip->open('zip/zipfile.zip', ZipArchive::CREATE);
- 
-// $zip->addFile($path.'/'.$value);
-
- 
-// $zip->close();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Create ZIP file
-// if(isset($_POST['create'])){
-//  $zip = new ZipArchive();
-//  $filename = "./zipfile.zip";
-
-//  if ($zip->open($filename, ZipArchive::CREATE)!==TRUE) {
-//   exit("cannot open <$filename>\n");
-//  }
-
-//  $dir = 'includes/';
-
- // Create zip
-//  createZip($zip,$dir);
-
-//  $zip->close();
-// }
-
-// Create zip
-// function createZip($zip,$dir){
-//  if (is_dir($dir)){
-
-//   if ($dh = opendir($dir)){
-//    while (($file = readdir($dh)) !== false){
- 
-    // If file
-    // if (is_file($dir.$file)) {
-    //  if($file != '' && $file != '.' && $file != '..'){
- 
-    //   $zip->addFile($dir.$file);
-    //  }
-    // }else{
-     // If directory
-     // if(is_dir($dir.$file) ){
-
-     //  if($file != '' && $file != '.' && $file != '..'){
-
-       // Add empty directory
-       // $zip->addEmptyDir($dir.$file);
-
-       // $folder = $dir.$file.'/';
- 
-       // Read data of the folder
-//        createZip($zip,$folder);
-//       }
-//      }
- 
-//     }
- 
-//    }
-//    closedir($dh);
-//   }
-//  }
-// }
-
-// Download Created Zip file
-// if(isset($_POST['download'])){
- 
-//  $filename = "myzipfile.zip";
-
-//  if (file_exists($filename)) {
-//   header('Content-Type: application/zip');
-//   header('Content-Disposition: attachment; filename="'.basename($filename).'"');
-//   header('Content-Length: ' . filesize($filename));
-
-//   flush();
-//   readfile($filename);
-  // delete file
-  // unlink($filename);
- 
-//  }
-// }
 ?>
-<h2>Files Successfully Zipped, Please Download</h2>
-<hr>
-<a href="download.php">Download Zipped Files</a>
+
 <?php
+if (file_exists('zipper/files.zip')) {
+echo "<a href=" . "download.php>" . "Download Files</a>";
+} else {
+  header("Location: index.php"); /* Redirect browser */
+}
+
+ 
+  
+ 
 
 
 ?>

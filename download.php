@@ -1,40 +1,13 @@
+<?php error_reporting(E_ALL); ini_set('display_errors', 1);?>
 <?php
-
-// We'll be outputting a zip file
-header('Content-Type: application/zip');
-
-// It will be called downloaded.pdf
-header('Content-Disposition: attachment; filename="zipfile.zip"');
-
-
-
-// The PDF source is in myzip.zip
-readfile('zip/zipfile.zip');
-
-//file size
-header('Content-Length: '.filesize('zip/zipfile.zip'));
-
-
-
-// delete the file after download
-
 ignore_user_abort(true);
-
 // We'll be outputting a zip file
 header('Content-Type: application/zip');
-
-// It will be called downloaded.pdf
-header('Content-Disposition: attachment; filename="zipfile.zip"');
-
-
-
-// The PDF source is in myzip.zip
-readfile('zip/zipfile.zip');
-
+// It will be called zip-files.zip
+header('Content-Disposition: attachment; filename="zip-files.zip"');
+// The PDF source is in zipper/files.zip
+readfile('zipper/files.zip');
 //file size
-header('Content-Length: '.filesize('zip/zipfile.zip'));
-
-unlink('zip/zipfile.zip');
-
-
+header('Content-Length: '.filesize('zipper/zip-files.zip'));
+unlink('zipper/files.zip'); // delete the zip-file.zip from the server once user initiate the download
 ?>
