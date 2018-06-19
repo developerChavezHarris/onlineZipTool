@@ -45,24 +45,18 @@ if (file_exists($filesToDelete)) { // now we are asking if the path do contain a
      //echo 'Files Deleted'; // we'll echo "Files Deleted" when we successfully delete the files
  } 
  else {
-     echo 'Files does not exists'; // if the deletion was unsuccessful then we echo "Files does not exists"
+     //echo 'Files does not exists'; // if the deletion was unsuccessful then we echo "Files does not exists"
  }
 
-?>
-
-<?php
 $currZipSize = filesize('zipper/files.zip');
 if (file_exists('zipper/files.zip')) {
 
-echo "<a href=" . "download.php>" . "Download Files</a>";
+echo "<a href=" . "/download.php>" . "Download Files</a>";
 
 } else {
   header("Location: index.php"); /* Redirect browser */
 }
 
- 
-  
- 
 
 
 ?>
