@@ -30,6 +30,7 @@ foreach ($files as &$value) { // for every file in the directory
      
     $zip->close(); // lets close the zip archive - php unlock the zipped archives
 }
+$prevZipSize = filesize('zipper/files.zip');
 
 //// since we already moved the files to the zip archive we created, we do not want uncompress files
 //// any longer, so we'll delete them next
@@ -50,8 +51,11 @@ if (file_exists($filesToDelete)) { // now we are asking if the path do contain a
 ?>
 
 <?php
+$currZipSize = filesize('zipper/files.zip');
 if (file_exists('zipper/files.zip')) {
+
 echo "<a href=" . "download.php>" . "Download Files</a>";
+
 } else {
   header("Location: index.php"); /* Redirect browser */
 }
