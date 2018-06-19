@@ -10,7 +10,7 @@
   <div class='container'>
     <h1>eZip</h1><p>&copy;eZip- A Better way to Zip!</p>
     <h3>Select all the files you want to zip</h3>
-    <form method='post' action='/upload.php' form enctype= multipart/form-data >
+    <form method='post' action='upload.php' form enctype= multipart/form-data >
       <input type='file' name='upload[]' multiple='multiple'/>
      <input type='submit' value='Upload and Zip' />
     </form>

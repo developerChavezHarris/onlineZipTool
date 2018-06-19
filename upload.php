@@ -19,6 +19,7 @@ for( $i=0 ; $i < $total ; $i++ ) {
 $path = "Zipped-Files/";
 // list all the files in the directory 
 $files = array_diff( scandir($path), array(".", "..") ); // exclude "." and ".." from the directory listing
+echo $files;
 foreach ($files as &$value) { // for every file in the directory
    // echo $value . '<br/>'; // lets echo the name of each of those files
     
@@ -51,7 +52,7 @@ if (file_exists($filesToDelete)) { // now we are asking if the path do contain a
 $currZipSize = filesize('zipper/files.zip');
 if (file_exists('zipper/files.zip')) {
 
-echo "<a href=" . "/download.php>" . "Download Files</a>";
+echo "<a href=" . "download.php>" . "Download Files</a>";
 
 } else {
   header("Location: index.php"); /* Redirect browser */
